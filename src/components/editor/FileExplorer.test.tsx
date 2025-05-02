@@ -295,4 +295,37 @@ describe("FileExplorer", () => {
     );
     expect(mockDragEvent.dataTransfer.effectAllowed).toBe("copy");
   });
+
+  it("renders the FILES header as sticky", () => {
+    render(
+      <FileExplorer
+        files={mockFilesNested}
+        activeFileId="1"
+        onFileSelect={mockOnFileSelect}
+      />
+    );
+    // Find the div containing the "FILES" text
+    const headerDiv = screen.getByText("FILES").closest("div");
+    expect(headerDiv).toHaveClass("sticky", "top-0", "bg-gray-800", "z-10");
+  });
+
+  it("renders the file tree container with overflow and custom scrollbar", () => {
+    const { container } = render(
+      // Use container from render result
+      <FileExplorer
+        files={mockFilesNested}
+        activeFileId="1"
+        onFileSelect={mockOnFileSelect}
+      />
+    );
+    // Select the scrollable container using its class
+    const scrollableContainer = container.querySelector(".custom-scrollbar");
+
+    expect(scrollableContainer).toBeInTheDocument(); // First check if it exists
+    expect(scrollableContainer).toHaveClass(
+      "flex-grow",
+      "overflow-y-auto",
+      "custom-scrollbar"
+    );
+  });
 });

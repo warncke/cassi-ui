@@ -250,12 +250,13 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
   };
 
   return (
-    <div className="h-full overflow-y-auto p-2">
-      <div className="font-semibold text-sm text-gray-300 px-2 py-2 mb-2">
+    <div className="h-full flex flex-col bg-gray-800">
+      <div className="font-semibold text-sm text-gray-300 px-4 py-3 mb-2 sticky top-0 bg-gray-800 z-10">
         FILES
       </div>
-
-      {fileTree.map((node) => renderNode(node, 0))}
+      <div className="flex-grow overflow-y-auto custom-scrollbar">
+        {fileTree.map((node) => renderNode(node, 0))}
+      </div>
     </div>
   );
 };
