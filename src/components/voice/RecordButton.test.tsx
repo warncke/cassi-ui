@@ -204,7 +204,10 @@ describe("RecordButton", () => {
       mockRecorder
     );
     expect(mockAddTask).toHaveBeenCalledTimes(1);
-    expect(mockAddTask).toHaveBeenCalledWith("Processing voice command (2 KB)");
+    expect(mockAddTask).toHaveBeenCalledWith(
+      "Processing voice command (2 KB)",
+      mockBlob
+    );
     expect(mockRecorder.stop).toHaveBeenCalledTimes(1); // Check internal cleanup call
     expect(mockTrack.stop).toHaveBeenCalledTimes(1); // Check internal cleanup call
 
@@ -270,7 +273,10 @@ describe("RecordButton", () => {
     expect(vi.mocked(voiceRecorderUtils.stopRecording)).toHaveBeenCalledTimes(
       1
     ); // Use vi.mocked
-    expect(mockAddTask).toHaveBeenCalledWith("Processing voice command (0 KB)"); // 500 bytes -> 0 KB
+    expect(mockAddTask).toHaveBeenCalledWith(
+      "Processing voice command (0 KB)",
+      mockBlob
+    ); // 500 bytes -> 0 KB
     expect(screen.queryByText(/s$/)).not.toBeInTheDocument();
     expect(mockRecorder.stop).toHaveBeenCalledTimes(1);
     expect(button).not.toHaveClass("animate-pulse");
@@ -320,10 +326,15 @@ describe("RecordButton", () => {
       await Promise.resolve(); // Allow stop promise and cleanup
     });
 
+    const defaultBlob = new Blob(["audio"], { type: "audio/webm" }); // Re-create the default blob used if not overridden
     expect(vi.mocked(voiceRecorderUtils.stopRecording)).toHaveBeenCalledTimes(
       1
     ); // Use vi.mocked
-    expect(mockAddTask).toHaveBeenCalledTimes(1); // Check if called, content doesn't matter here
+    expect(mockAddTask).toHaveBeenCalledTimes(1);
+    expect(mockAddTask).toHaveBeenCalledWith(
+      expect.stringContaining("Processing voice command"), // Check the string part loosely
+      defaultBlob // Check that the default blob was passed
+    );
     expect(screen.queryByText(/s$/)).not.toBeInTheDocument();
     expect(mockRecorder.stop).toHaveBeenCalledTimes(1);
     expect(button).not.toHaveClass("animate-pulse");

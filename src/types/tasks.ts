@@ -7,14 +7,15 @@ export interface Task {
   id: string;
   content: string;
   timestamp: number;
-  status: 'pending' | 'completed' | 'failed';
+  status: "pending" | "completed" | "failed";
   context: TaskContextItem[];
+  audioBlob?: Blob;
 }
 
 export interface TaskContextType {
   tasks: Task[];
-  addTask: (content: string) => void;
-  updateTaskStatus: (id: string, status: Task['status']) => void;
+  addTask: (content: string, audioBlob?: Blob) => void;
+  updateTaskStatus: (id: string, status: Task["status"]) => void;
   taskContext: TaskContextItem[];
   addTaskContext: (type: string, data: Record<string, unknown>) => void;
   clearTaskContext: () => void;

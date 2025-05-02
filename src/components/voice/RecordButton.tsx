@@ -83,7 +83,8 @@ const RecordButton: React.FC = () => {
 
       if (audioBlob.size > 0) {
         addTask(
-          `Processing voice command (${Math.round(audioBlob.size / 1024)} KB)`
+          `Processing voice command (${Math.round(audioBlob.size / 1024)} KB)`,
+          audioBlob
         );
       }
     } catch (error) {
